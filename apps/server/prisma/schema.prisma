@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  role      String   @default("STUDENT") // Enum Role
+  createdAt DateTime @default(now())
+  jobs      Job[]
+}
+
+model Printer {
+  id          Int           @id // 1-20 fixed IDs
+  name        String
+  ipAddress   String        @unique // 192.168.10.x
+  accessCode  String        // Bambu access code
+  status      String        @default("OFFLINE") // Enum PrinterStatus
+  
+  // Real-time Telemetry (Snapshot)
+  nozzleTemp  Float         @default(0)
+  bedTemp     Float         @default(0)
+  progress    Int           @default(0)
+  timeLeft    Int           @default(0) // minutes
+  currentFile String?
+  
+  // Relations
+  currentJob  Job?          @relation("CurrentJob")
+  jobHistory  Job[]         @relation("PrinterHistory")
+
+  updatedAt   DateTime      @updatedAt
+}
+
+model Job {
+  id          String    @id @default(uuid())
+  filename    String
+  fileUrl     String    // Path to .3mf file
+  material    String    @default("PLA")
+  note        String?
+  
+  status      String    @default("PENDING") // Enum JobStatus
+  
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  startedAt   DateTime?
+  completedAt DateTime?
+  
+  // Relations
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  
+  printerId   Int?
+  printer     Printer?  @relation("PrinterHistory", fields: [printerId], references: [id])
+  
+  // If currently printing
+  activePrinterId Int? @unique
+  activePrinter   Printer? @relation("CurrentJob", fields: [activePrinterId], references: [id])
+}

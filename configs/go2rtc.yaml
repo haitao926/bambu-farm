@@ -1,0 +1,8 @@
+api:
+  listen: ":1984"
+
+streams:
+  # Examples - will be populated dynamically or statically
+  # Naming rule: Bambu P1S #04 -> printer_04
+  # printer_01: rtsp://user:pass@192.168.1.101/live
+  # printer_04: rtsp://user:pass@192.168.1.104/live

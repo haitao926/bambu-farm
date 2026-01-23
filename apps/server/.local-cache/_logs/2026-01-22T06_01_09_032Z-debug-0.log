@@ -1,0 +1,14 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.6.2
+2 info using node@v24.12.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 info config found workspace root at /Users/apple/Documents/GitHub/Bambu farm
+5 silly config load:file:/Users/apple/Documents/GitHub/Bambu farm/.npmrc
+6 silly config load:file:/Users/apple/.npmrc
+7 silly config load:file:/usr/local/etc/npmrc
+8 verbose title npm run dev
+9 verbose argv "run" "dev"
+10 verbose logfile logs-max:10 dir:/Users/apple/Documents/GitHub/Bambu farm/apps/server/.local-cache/_logs/2026-01-22T06_01_09_032Z-
+11 verbose logfile /Users/apple/Documents/GitHub/Bambu farm/apps/server/.local-cache/_logs/2026-01-22T06_01_09_032Z-debug-0.log
+12 silly logfile start cleaning logs, removing 1 files
+13 silly logfile done cleaning log files

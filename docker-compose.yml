@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: bambu_db
+    restart: always
+    environment:
+      POSTGRES_USER: bambu
+      POSTGRES_PASSWORD: bambupassword
+      POSTGRES_DB: bambu_farm
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis for Queue
+  redis:
+    image: redis:7-alpine
+    container_name: bambu_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # Go2RTC Media Server
+  go2rtc:
+    image: alexxit/go2rtc
+    container_name: bambu_media
+    network_mode: host # Needs host mode for WebRTC UDP
+    restart: unless-stopped
+    volumes:
+      - ./configs/go2rtc.yaml:/config/go2rtc.yaml
+
+volumes:
+  postgres_data:
+  redis_data:
