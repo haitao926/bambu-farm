@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { PrintersModule } from './printers/printers.module';
 import { JobsModule } from './jobs/jobs.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { PrinterAdaptersModule } from './printer-adapters/printer-adapters.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { PrismaModule } from './prisma/prisma.module';
       isGlobal: true, // Makes ConfigModule available everywhere
     }),
     PrismaModule,
+    PrinterAdaptersModule,
     PrintersModule,
     JobsModule,
   ],

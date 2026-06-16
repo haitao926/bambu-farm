@@ -28,17 +28,38 @@ async function main() {
              status = 'OFFLINE';
         }
 
+        // Model diversity
+        let model = 'P1S';
+        let nozzleSize = 0.4;
+        let capabilities = '';
+
+        if (id === 5 || id === 10) {
+            model = 'X1C';
+            capabilities = 'AMS';
+        } else if (id === 15) {
+            model = 'A1';
+            nozzleSize = 0.2; // finer nozzle
+        } else if (id <= 4) {
+            capabilities = 'AMS'; // some P1S also have AMS
+        }
+
         await prisma.printer.create({
             data: {
                 id,
-                name: `Bambu P1S #${String(id).padStart(2, '0')}`,
+                name: `${model === 'X1C' ? 'Bambu X1C' : model === 'A1' ? 'Bambu A1' : 'Bambu P1S'} #${String(id).padStart(2, '0')}`,
                 ipAddress: `192.168.10.${100 + id}`,
                 accessCode: '12345678',
                 status,
                 progress,
                 timeLeft,
                 nozzleTemp,
-                bedTemp
+                bedTemp,
+                model,
+                serial: `00M00A${String(id).padStart(5, '0')}`,
+                nozzleSize,
+                capabilities,
+                lastSeenAt: new Date(),
+                streamName: `printer_${String(id).padStart(2, '0')}`
             }
         });
     }

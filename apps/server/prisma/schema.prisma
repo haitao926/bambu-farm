@@ -26,6 +26,14 @@ model Printer {
   accessCode  String        // Bambu access code
   status      String        @default("OFFLINE") // Enum PrinterStatus
   
+  // Equipment capabilities & Identification
+  model       String        @default("P1S")
+  serial      String?       @unique
+  nozzleSize  Float         @default(0.4)
+  capabilities String?       // e.g. "AMS"
+  lastSeenAt  DateTime?
+  streamName  String?       // e.g. "printer_01"
+  
   // Real-time Telemetry (Snapshot)
   nozzleTemp  Float         @default(0)
   bedTemp     Float         @default(0)
@@ -47,9 +55,19 @@ model Job {
   material    String    @default("PLA")
   note        String?
   
-  status      String    @default("PENDING") // Enum JobStatus
+  status      String    @default("PENDING_REVIEW") // Enum JobStatus
   
-  // Timestamps
+  // Review flow
+  reviewedAt  DateTime?
+  reviewedById Int?
+  rejectionReason String?
+  
+  // Scheduling & Telemetry timestamps
+  queuedAt    DateTime?
+  dispatchedAt DateTime?
+  failedAt    DateTime?
+  failureReason String?
+  
   createdAt   DateTime  @default(now())
   startedAt   DateTime?
   completedAt DateTime?
